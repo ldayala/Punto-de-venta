@@ -1,4 +1,5 @@
 ﻿
+using Capa_de__Datos;
 using Capa_Entidad;
 using Capa_Negocio;
 using Microsoft.Win32;
@@ -23,10 +24,12 @@ namespace Ily_s_Store.Views
         #region Propiedades
         readonly CN_Usuarios obj_CN_Usuarios = new CN_Usuarios();
         readonly CE_Usuarios obj_CE_Usuarios = new CE_Usuarios();
+        readonly CN_Privilegio obj_CN_Privilegio = new CN_Privilegio();
         byte[] data;
         private bool imagenSubida = false;
         public int IdUsuario;
         readonly SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionDBIlyStore"].ConnectionString);
+        private static string patron="patron pass";
         #endregion
 
         #region Inicial
@@ -37,11 +40,9 @@ namespace Ily_s_Store.Views
         }
         #endregion
         #region Cargar Privilegio
-        void CargarCB() // caragr datos en el combox
+        void CargarCB() // cargar datos en el combox
         {
-            con.Open();  //abro la conexion a la db
-            SqlCommand cmd = new SqlCommand("select nombrePrivilegio from Privilegios", con); //creo el comando a ejecutar
-            SqlDataReader dr = cmd.ExecuteReader();  //creao el reader para ejecutar el comando
+            var dr = obj_CN_Privilegio.MostrarPrivilegios();
             while (dr.Read()) //mientra haya un registro se va a estar ejecuatndo el while
             {
                 cbPrivilegios.Items.Add(dr["nombrePrivilegio"].ToString());
@@ -72,11 +73,13 @@ namespace Ily_s_Store.Views
         #endregion
 
 
-         #region Crear
+        #region Crear
         private void BtnCrear_Click(object sender, RoutedEventArgs e)
         {
             if (CamposLlenos()&&tbPassword.Password !="" )
             {
+                int privilegio= obj_CN_Privilegio.IdPrivilegio(cbPrivilegios.Text);
+
                 obj_CE_Usuarios.Nombres=tbNombres.Text;
                 obj_CE_Usuarios.Apellidos = tbApellidos.Text;
                 obj_CE_Usuarios.Dni = tbDNI.Text;
@@ -84,8 +87,10 @@ namespace Ily_s_Store.Views
                 obj_CE_Usuarios.Usuario = tbUsuario.Text;
                 obj_CE_Usuarios.FechaNacimiento = Convert.ToDateTime(tbFechaNacimiento.Text);
                 obj_CE_Usuarios.Contrasenia=tbPassword.Password;
-                obj_CE_Usuarios.Patron = "Patron pass";
-                obj_CE_Usuarios.Telefono = Convert.ToInt32(tbTelefono.Text);
+                obj_CE_Usuarios.Patron = patron;
+                obj_CE_Usuarios.Telefono = Convert.ToInt32(tbTelefono.Text); 
+                obj_CE_Usuarios.Imagen=data;
+                obj_CE_Usuarios.Privilegio=privilegio;
 
                 obj_CN_Usuarios.Insertar(obj_CE_Usuarios);
 
@@ -106,77 +111,75 @@ namespace Ily_s_Store.Views
 
         public void Consultar()
         {
-            con.Open();
-            SqlCommand cmd = new SqlCommand("select * from Usuarios inner join Privilegios ON Privilegios.idPrivilegio=Usuarios.privilegio where Usuarios.idUsuario=" + IdUsuario, con);
-            SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
-            reader.Read();
-            this.tbNombres.Text = reader["nombres"].ToString();
-            this.tbPassword.Password = reader["contrasenia"].ToString();
-            this.tbUsuario.Text = reader["usuario"].ToString();
-            this.tbTelefono.Text = reader["telefono"].ToString();
-            this.tbApellidos.Text = reader["apellidos"].ToString();
-            this.tbDNI.Text = reader["DNI"].ToString();
-            this.tbEmail.Text = reader["email"].ToString();
-            this.tbFechaNacimiento.Text = reader["fechaNaciemiento"].ToString();
-            this.cbPrivilegios.SelectedValue = reader["nombrePrivilegio"];
-            
-            reader.Close();
+           var a =obj_CN_Usuarios.Consultar(IdUsuario);
 
-            //imagen
-            DataSet ds = new DataSet();
-            SqlDataAdapter sgda = new SqlDataAdapter("select img from usuarios where idUsuario=" + IdUsuario + "", con);
-            sgda.Fill(ds);
+            tbNombres.Text=a.Nombres;
+            tbApellidos.Text=a.Apellidos;
+            tbDNI.Text=a.Dni;
+            tbEmail.Text=a.Email;
+            tbFechaNacimiento.Text=a.FechaNacimiento.ToString();
+            tbTelefono.Text=a.Telefono.ToString();
+            tbUsuario.Text=a.Usuario.ToString();
 
-            BitmapImage bi = ConvertirCadenaBitAImagen(ds);
+            var b = obj_CN_Privilegio.MostrarNombrePrivi(a.Privilegio);
+            cbPrivilegios.Text=b.NombrePrivilegio;
 
-            imagen.Source = bi;
-            con.Close();
+             ImageSourceConverter imgs= new ImageSourceConverter();
+             imagen.Source=(ImageSource)imgs.ConvertFrom(obj_CE_Usuarios.Imagen);
+
+
         }
         #endregion
 
 
-       
+       #region Actualizar 
 
-        private void BtnUpdate_Click(object sender, RoutedEventArgs e)
+          private void BtnUpdate_Click(object sender, RoutedEventArgs e)
         {
-            con.Open();
-            SqlCommand privi = new SqlCommand("Mostrar_Privi", con) { CommandType = CommandType.StoredProcedure };
-            privi.Parameters.Add("@privilegio", SqlDbType.VarChar).Value = cbPrivilegios.SelectedValue;
-            Debug.WriteLine("privi selected:" + cbPrivilegios.SelectedValue);
-            object valor = privi.ExecuteScalar();
+            if (CamposLlenos()==true)
+	        {
+                int privilegio = obj_CN_Privilegio.IdPrivilegio(cbPrivilegios.Text);
 
-            int privilegio = (int)valor;
-            SqlCommand sqlCommand = new SqlCommand("UPD_Usuario", con)
-            {
-                CommandType = CommandType.StoredProcedure
-            };
-            sqlCommand.Parameters.Add("@idUsuario", SqlDbType.VarChar).Value = IdUsuario;
-            sqlCommand.Parameters.Add("@usuario", SqlDbType.VarChar).Value = tbUsuario.Text;
-            sqlCommand.Parameters.Add("@nombres", SqlDbType.VarChar).Value = tbNombres.Text;
-            sqlCommand.Parameters.Add("@apellidos", SqlDbType.VarChar).Value = tbApellidos.Text;
-            sqlCommand.Parameters.Add("@dni", SqlDbType.VarChar).Value = tbDNI.Text;
-            sqlCommand.Parameters.Add("@email", SqlDbType.VarChar).Value = tbEmail.Text;
-            sqlCommand.Parameters.Add("@telefono", SqlDbType.BigInt).Value = System.Convert.ToInt64(tbTelefono.Text);
-            sqlCommand.Parameters.Add("@fechaNacimiento", SqlDbType.Date).Value = System.Convert.ToDateTime(tbFechaNacimiento.Text);
-            sqlCommand.Parameters.Add("@privilegio", SqlDbType.Int).Value = privilegio;
-            sqlCommand.Parameters.Add("@contrasenia", SqlDbType.VarChar).Value = "siiiiiiii";
-            sqlCommand.Parameters.Add("@patron", SqlDbType.VarChar).Value = "hola_siiiii";
-            sqlCommand.ExecuteNonQuery();
+                obj_CE_Usuarios.IdUsuario=IdUsuario;
+                obj_CE_Usuarios.Nombres=tbNombres.Text;
+                obj_CE_Usuarios.Apellidos=tbApellidos.Text;
+                obj_CE_Usuarios.Dni=tbDNI.Text;
+                obj_CE_Usuarios.Email=tbEmail.Text;
+                obj_CE_Usuarios.Telefono=int.Parse(tbFechaNacimiento.Text);
+                obj_CE_Usuarios.Usuario=tbUsuario.Text;
+                obj_CE_Usuarios.Privilegio=privilegio;
+                obj_CE_Usuarios.FechaNacimiento = Convert.ToDateTime(tbFechaNacimiento.Text);
+
+                obj_CN_Usuarios.ActualizarUsuario(obj_CE_Usuarios);
+                
+	        }else
+	        {
+                MessageBox.Show("Los campos no pueden quedar vacios");
+        	}
+
+            if (tbPassword.Password != "") { 
+                obj_CE_Usuarios.IdUsuario=IdUsuario;
+                obj_CE_Usuarios.Contrasenia=tbPassword.Password;
+                obj_CE_Usuarios.Patron=patron;
+
+                obj_CN_Usuarios.ActualizarPass(obj_CE_Usuarios);
+                            
+            }
             if (imagenSubida == true)
-            {
+            { 
+                obj_CE_Usuarios.IdUsuario = IdUsuario;
+                obj_CE_Usuarios.Imagen=data;
 
-                ActualizaImagenEnDB("UPD_Imagen", data, IdUsuario);
+                obj_CN_Usuarios.ActualizarImagen(obj_CE_Usuarios);
+
             }
-
-
-            if (con.State == ConnectionState.Open)
-            {
-                con.Close();
-            }
-            Content = new Usuarios();
-
+           
+             Content= new Usuarios();
 
         }
+	#endregion
+
+      
 
         private void ActualizaImagenEnDB(string storePro, byte[] ima, int id)
         {
