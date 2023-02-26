@@ -1,8 +1,8 @@
-﻿using System.Configuration;
+﻿using Capa_de__Datos;
+using Capa_Entidad;
+using Capa_Negocio;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
-using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -18,29 +18,29 @@ namespace Ily_s_Store.Views
             InitializeComponent();
             CargarDatos();
         }
-        SqlConnection conn=new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionDBIlyStore"].ConnectionString);
-       void CargarDatos()
-        {
-            conn.Open();
-            SqlCommand cmd = new SqlCommand("select idUsuario, DNI,apellidos,nombres,telefono,email,Privilegios.nombrePrivilegio from Usuarios inner join Privilegios on Usuarios.privilegio= Privilegios.idPrivilegio order by idUsuario ASC", conn);
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dt=new DataTable();
-            adapter.Fill(dt);
-            GridDatos.ItemsSource=dt.DefaultView;
-            if (conn.State==ConnectionState.Open)
-            {
-                conn.Close();
-            }
-        }
 
+        private readonly CN_Usuarios us = new CN_Usuarios();
+        private readonly CE_Usuarios cD_Usuarios = new CE_Usuarios();
+
+        #region Carga de datos
+        void CargarDatos()
+        {
+            DataTable dt = us.ObtenerUsuarios();
+            GridDatos.ItemsSource = dt.DefaultView;
+        }
+        #endregion
+
+        #region Crear usuario
         private void btnCrearUsuario_Click(object sender, RoutedEventArgs e)
         {
             CRUDUsuarios ventana = new CRUDUsuarios(); //creo un objeto de la ventana qe quiero mostrar
-            FrameUsuarios.Content= ventana;  // el frame recibe como su contenido la ventana
-            ventana.BtnCrear.Visibility=Visibility.Visible;
-            Contenido.Visibility=Visibility.Hidden;
+            FrameUsuarios.Content = ventana;  // el frame recibe como su contenido la ventana
+            ventana.BtnCrear.Visibility = Visibility.Visible;
+            Contenido.Visibility = Visibility.Hidden;
         }
+        #endregion
 
+        #region Consultar
         private void btnConsultar_Click(object sender, RoutedEventArgs e)
         {
             int id = (int)((Button)sender).CommandParameter; //para obtener eñl id del elemento selccionado en el formulario
@@ -49,11 +49,11 @@ namespace Ily_s_Store.Views
                 IdUsuario = id
             };
             ventana.Consultar();
-          
+
             FrameUsuarios.Content = ventana;
             Contenido.Visibility = Visibility.Hidden;
             ventana.Titulo.Text = "Consultar Usuario";
-            ventana.tbApellidos.IsEnabled=false;
+            ventana.tbApellidos.IsEnabled = false;
             ventana.tbDNI.IsEnabled = false;
             ventana.tbEmail.IsEnabled = false;
             ventana.tbFechaNacimiento.IsEnabled = false;
@@ -63,14 +63,14 @@ namespace Ily_s_Store.Views
             ventana.tbUsuario.IsEnabled = false;
             ventana.btnSubir.IsEnabled = false;
             ventana.cbPrivilegios.IsEnabled = false;
-         
-
 
         }
+        #endregion
 
+        #region Modificar 
         private void btnModificar_Click(object sender, RoutedEventArgs e)
         {
-            int id= (int)((Button)sender).CommandParameter;
+            int id = (int)((Button)sender).CommandParameter;
 
             CRUDUsuarios ventana = new CRUDUsuarios
             {
@@ -78,32 +78,23 @@ namespace Ily_s_Store.Views
             };
             ventana.Consultar();
             ventana.Titulo.Text = "Actualizar Usuario";
-            FrameUsuarios.Content= ventana;
-            ventana.BtnUpdate.Visibility= Visibility.Visible;
+            FrameUsuarios.Content = ventana;
+            ventana.BtnUpdate.Visibility = Visibility.Visible;
             Contenido.Visibility = Visibility.Hidden;
 
 
         }
+        #endregion
 
+        #region Eliminar
         private void btnEliminar_Click(object sender, RoutedEventArgs e)
         {
             int id = (int)((Button)sender).CommandParameter;
-           
-            conn.Open();
-            SqlCommand cmd = new SqlCommand("EliminarUsuario", conn)
-            {
-                CommandType = CommandType.StoredProcedure
-            };
-
-            cmd.Parameters.Add("idUsuario", SqlDbType.Int).Value = id;
-           // Debug.WriteLine("idUsuario: " + IdUsuario);
-            cmd.ExecuteNonQuery();
-            if (conn.State == ConnectionState.Open)
-            {
-                conn.Close();
-            }
+            cD_Usuarios.IdUsuario = id;
+            us.Eliminar(cD_Usuarios);
             Content = new Usuarios();
 
         }
+        #endregion       
     }
 }

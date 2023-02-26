@@ -2,6 +2,7 @@
 using Capa_Entidad;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,6 +46,13 @@ namespace Capa_Negocio
 
         #region ActualizarImagen
         public void ActualizarImagen(CE_Usuarios Usuario) {objDatos.ActualizarImagen(Usuario);}
+        #endregion
+
+        #region Mostrar Usuarios
+        public DataTable ObtenerUsuarios()
+        {
+            return objDatos.ObtenerUsuarios();
+        }
         #endregion
     }
 }

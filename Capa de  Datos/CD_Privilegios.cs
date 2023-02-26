@@ -3,15 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Capa_de__Datos
 {
     public class CD_Privilegios
     {
-        private readonly CD_Conexion conexion=new CD_Conexion();
+        readonly CD_Conexion conexion=new CD_Conexion();
         private CE_Privilegios privilegios=new CE_Privilegios();
 
         #region Id Privilegio
@@ -20,12 +18,12 @@ namespace Capa_de__Datos
         {
             SqlCommand cmd = new SqlCommand()
             {
-                CommandText = "Mostrar_Privi",
+                CommandText = "Mostrar_Id_Privi",
                 CommandType = CommandType.StoredProcedure,
                 Connection= conexion.AbrirConnexion()
             };
 
-            cmd.Parameters.AddWithValue("@privilegio", NombrePrivilegio);
+            cmd.Parameters.AddWithValue("@nombrePrivi", NombrePrivilegio);
 
             object resultado=  cmd.ExecuteScalar();
           
@@ -41,7 +39,7 @@ namespace Capa_de__Datos
             //SqlDataAdapter adapter = new SqlDataAdapter();
             SqlCommand cmd = new SqlCommand()
             {
-                CommandText = "Mostrar_Id_Privi",
+                CommandText = "Mostrar_Privi",
                 CommandType = CommandType.StoredProcedure,
                 Connection = conexion.AbrirConnexion()
             };
@@ -49,6 +47,7 @@ namespace Capa_de__Datos
             cmd.Parameters.AddWithValue("@privilegio", IdPrivilegio);
 
             object resultado = cmd.ExecuteScalar();
+            Debug.WriteLine("resultado"+resultado);
             privilegios.NombrePrivilegio = (string)resultado;
             return privilegios;
 
@@ -57,7 +56,7 @@ namespace Capa_de__Datos
 
         #region Mostrar Privilegios
          
-        public SqlDataReader MostrarPrivilegios()
+        public List<String> MostrarPrivilegios()
         {
             SqlCommand cmd = new SqlCommand()
             {
@@ -67,7 +66,17 @@ namespace Capa_de__Datos
             };
 
             SqlDataReader resultado = cmd.ExecuteReader();
-            return resultado;   
+            
+
+            List<String> list = new List<String>();
+            while (resultado.Read())
+            {
+                list.Add((string)resultado["nombrePrivilegio"])
+;            }
+            conexion.CerrarConexion();
+            return list;
+
+         
         } 
 
         #endregion

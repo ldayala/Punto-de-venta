@@ -4,6 +4,7 @@ using Capa_Entidad;
 using Capa_Negocio;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -28,7 +29,7 @@ namespace Ily_s_Store.Views
         byte[] data;
         private bool imagenSubida = false;
         public int IdUsuario;
-        readonly SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionDBIlyStore"].ConnectionString);
+        // readonly SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionDBIlyStore"].ConnectionString);
         private static string patron="patron pass";
         #endregion
 
@@ -39,16 +40,15 @@ namespace Ily_s_Store.Views
             CargarCB();
         }
         #endregion
+
         #region Cargar Privilegio
         void CargarCB() // cargar datos en el combox
         {
-            var dr = obj_CN_Privilegio.MostrarPrivilegios();
-            while (dr.Read()) //mientra haya un registro se va a estar ejecuatndo el while
+          List<string> privilegios=  obj_CN_Privilegio.MostrarPrivilegios();
+            foreach (string privilegio in privilegios)
             {
-                cbPrivilegios.Items.Add(dr["nombrePrivilegio"].ToString());
+                cbPrivilegios.Items.Add(privilegio);
             }
-
-            con.Close();
         }
         #endregion
         #region Regresar
@@ -76,7 +76,7 @@ namespace Ily_s_Store.Views
         #region Crear
         private void BtnCrear_Click(object sender, RoutedEventArgs e)
         {
-            if (CamposLlenos()&&tbPassword.Password !="" )
+            if (CamposLlenos()&&tbPassword.Password !=""&&imagenSubida==true)
             {
                 int privilegio= obj_CN_Privilegio.IdPrivilegio(cbPrivilegios.Text);
 
@@ -125,7 +125,7 @@ namespace Ily_s_Store.Views
             cbPrivilegios.Text=b.NombrePrivilegio;
 
              ImageSourceConverter imgs= new ImageSourceConverter();
-             imagen.Source=(ImageSource)imgs.ConvertFrom(obj_CE_Usuarios.Imagen);
+             imagen.Source=(ImageSource)imgs.ConvertFrom(a.Imagen);
 
 
         }
@@ -145,7 +145,7 @@ namespace Ily_s_Store.Views
                 obj_CE_Usuarios.Apellidos=tbApellidos.Text;
                 obj_CE_Usuarios.Dni=tbDNI.Text;
                 obj_CE_Usuarios.Email=tbEmail.Text;
-                obj_CE_Usuarios.Telefono=int.Parse(tbFechaNacimiento.Text);
+                obj_CE_Usuarios.Telefono=int.Parse(tbTelefono.Text);
                 obj_CE_Usuarios.Usuario=tbUsuario.Text;
                 obj_CE_Usuarios.Privilegio=privilegio;
                 obj_CE_Usuarios.FechaNacimiento = Convert.ToDateTime(tbFechaNacimiento.Text);
@@ -179,21 +179,7 @@ namespace Ily_s_Store.Views
         }
 	#endregion
 
-      
-
-        private void ActualizaImagenEnDB(string storePro, byte[] ima, int id)
-        {
-            SqlCommand com = new SqlCommand(storePro, con)
-            {
-                CommandType = CommandType.StoredProcedure
-            };
-            com.Parameters.Add("@imagen", SqlDbType.VarBinary).Value = ima;
-            com.Parameters.Add("idUsuario", SqlDbType.Int).Value = id;
-            com.ExecuteNonQuery();
-           
-            
-        }
-
+             
         private void CambiarImagen_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog img = CargarImagen();

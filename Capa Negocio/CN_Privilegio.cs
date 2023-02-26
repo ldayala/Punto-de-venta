@@ -1,5 +1,6 @@
 ﻿using Capa_de__Datos;
 using Capa_Entidad;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 
 namespace Capa_Negocio
@@ -20,7 +21,7 @@ namespace Capa_Negocio
         #endregion
 
         #region Mostrar Privilegios
-        public SqlDataReader MostrarPrivilegios() {return obj_D_Privilegio.MostrarPrivilegios();}   
+        public List<string> MostrarPrivilegios() {return obj_D_Privilegio.MostrarPrivilegios();}   
         #endregion
 
     }

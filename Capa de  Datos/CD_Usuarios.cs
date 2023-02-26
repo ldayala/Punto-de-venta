@@ -29,10 +29,11 @@ namespace Capa_de__Datos
             comand.Parameters.AddWithValue("@telefono", Usuarios.Telefono);
             comand.Parameters.AddWithValue("@DNI", Usuarios.Dni);
             comand.Parameters.AddWithValue("@email", Usuarios.Email);
-            comand.Parameters.Add("@fechaNaciemiento",SqlDbType.Date).Value= Usuarios.FechaNacimiento;
+            comand.Parameters.Add("@fechaNacimiento",SqlDbType.Date).Value= Usuarios.FechaNacimiento;
             comand.Parameters.AddWithValue("@img", Usuarios.Imagen);
             comand.Parameters.AddWithValue("@privilegio", Usuarios.Privilegio);
             comand.Parameters.AddWithValue("@patron",Usuarios.Patron);
+            comand.Parameters.AddWithValue("@contrasenia", Usuarios.Contrasenia);
             comand.ExecuteNonQuery();
             comand.Parameters.Clear();
             con.CerrarConexion();
@@ -151,6 +152,23 @@ namespace Capa_de__Datos
 
         }
 
+        #endregion
+
+        #region Obtener Usuarios
+        public DataTable ObtenerUsuarios()
+        {
+            SqlDataAdapter da = new SqlDataAdapter("SEL_Usuarios",con.AbrirConnexion());  
+            da.SelectCommand.CommandType= CommandType.StoredProcedure;
+
+            DataSet ds = new DataSet();
+            ds.Clear();
+            da.Fill(ds);
+            DataTable dt=ds.Tables[0];
+            con.CerrarConexion();
+
+            return dt;
+
+        }
         #endregion
     }
 }
