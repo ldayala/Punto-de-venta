@@ -51,12 +51,14 @@ namespace Ily_s_Store.Views
             }
         }
         #endregion
+
         #region Regresar
         private void BtnRegresa_Click(object sender, RoutedEventArgs e)
         {
             Content = new Usuarios();
         }
         #endregion
+
         #region Validar Campos
         public bool CamposLlenos()
         {
@@ -71,7 +73,6 @@ namespace Ily_s_Store.Views
             
         }
         #endregion
-
 
         #region Crear
         private void BtnCrear_Click(object sender, RoutedEventArgs e)
@@ -131,8 +132,7 @@ namespace Ily_s_Store.Views
         }
         #endregion
 
-
-       #region Actualizar 
+        #region Actualizar 
 
           private void BtnUpdate_Click(object sender, RoutedEventArgs e)
         {

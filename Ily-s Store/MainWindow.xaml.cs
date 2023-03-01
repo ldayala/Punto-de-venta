@@ -44,7 +44,8 @@ namespace Ily_s_Store
 
         private void BtnCerrar_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            //Close();
+            Application.Current.Shutdown();
         }
 
         private void BtnMinimizar_Click(object sender, RoutedEventArgs e)

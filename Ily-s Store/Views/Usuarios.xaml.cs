@@ -16,19 +16,13 @@ namespace Ily_s_Store.Views
         public Usuarios()
         {
             InitializeComponent();
-            CargarDatos();
+            Buscar("");
+            
         }
 
         private readonly CN_Usuarios us = new CN_Usuarios();
         private readonly CE_Usuarios cD_Usuarios = new CE_Usuarios();
 
-        #region Carga de datos
-        void CargarDatos()
-        {
-            DataTable dt = us.ObtenerUsuarios();
-            GridDatos.ItemsSource = dt.DefaultView;
-        }
-        #endregion
 
         #region Crear usuario
         private void btnCrearUsuario_Click(object sender, RoutedEventArgs e)
@@ -95,6 +89,24 @@ namespace Ily_s_Store.Views
             Content = new Usuarios();
 
         }
-        #endregion       
+        #endregion
+
+
+        #region Buscar Usuarios
+        void Buscar(string buscar)
+        {
+            DataTable dt = us.Buscador(buscar);
+            GridDatos.ItemsSource = dt.DefaultView;
+
+        }
+       
+        private void Buscando(object sender, RoutedEventArgs e)
+        {
+            string texto= tbBuscando.Text;  
+            GridDatos.ItemsSource = us.Buscador(texto).DefaultView;
+
+        }
+        #endregion
+
     }
 }

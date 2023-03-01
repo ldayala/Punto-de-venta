@@ -153,19 +153,18 @@ namespace Capa_de__Datos
         }
 
         #endregion
-
-        #region Obtener Usuarios
-        public DataTable ObtenerUsuarios()
+        
+        #region Buscar Usuarios
+        public DataTable Buscador(string buscar)
         {
-            SqlDataAdapter da = new SqlDataAdapter("SEL_Usuarios",con.AbrirConnexion());  
+            SqlDataAdapter da = new SqlDataAdapter("SP_U_Buscar", con.AbrirConnexion());
             da.SelectCommand.CommandType= CommandType.StoredProcedure;
-
+            da.SelectCommand.Parameters.AddWithValue("@buscar", buscar);
             DataSet ds = new DataSet();
             ds.Clear();
             da.Fill(ds);
-            DataTable dt=ds.Tables[0];
+            DataTable dt= ds.Tables[0];
             con.CerrarConexion();
-
             return dt;
 
         }

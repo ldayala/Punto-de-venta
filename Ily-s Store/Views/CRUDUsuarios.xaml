@@ -592,7 +592,7 @@
                      Style="{DynamicResource TextBox}"/>
             <TextBlock Grid.Row="14"
                        Grid.Column="1"
-                       Text="Fecha de Naciemiento: "
+                       Text="Fecha de Nacimiento: "
                        HorizontalAlignment="Left"
                        VerticalAlignment="Center"/>
             <TextBox Grid.Row="14"

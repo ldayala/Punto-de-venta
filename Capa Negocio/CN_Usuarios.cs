@@ -48,10 +48,10 @@ namespace Capa_Negocio
         public void ActualizarImagen(CE_Usuarios Usuario) {objDatos.ActualizarImagen(Usuario);}
         #endregion
 
-        #region Mostrar Usuarios
-        public DataTable ObtenerUsuarios()
+       #region Buscar Usuarios
+        public DataTable Buscador(string buscador)
         {
-            return objDatos.ObtenerUsuarios();
+            return objDatos.Buscador(buscador);
         }
         #endregion
     }
