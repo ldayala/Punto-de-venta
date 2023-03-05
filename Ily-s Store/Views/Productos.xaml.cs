@@ -10,6 +10,7 @@ namespace Ily_s_Store.Views
         public Productos()
         {
             InitializeComponent();
+
         }
         #region Buscar
         private void tbBuscando(object sender, TextChangedEventArgs e)

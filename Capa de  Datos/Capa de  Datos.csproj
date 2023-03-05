@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="CD_Conexion.cs" />
     <Compile Include="CD_Privilegios.cs" />
+    <Compile Include="CD_Productos.cs" />
     <Compile Include="CD_Usuarios.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

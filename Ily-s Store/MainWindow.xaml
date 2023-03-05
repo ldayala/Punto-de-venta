@@ -483,7 +483,8 @@
                                     Background="Transparent"
                                     BorderBrush="Transparent"
                                     Cursor="Hand"
-                                    HorizontalAlignment="Left">
+                                    HorizontalAlignment="Left"
+                                    Click="productosCRUD">
                                 <Grid Width="200">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="50"></ColumnDefinition>

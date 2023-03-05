@@ -193,17 +193,12 @@ namespace Ily_s_Store.Views
         }
 
 
-        private OpenFileDialog CargarImagen()
+       private OpenFileDialog CargarImagen()
         {
 
             OpenFileDialog dialog = new OpenFileDialog();
             if (dialog.ShowDialog() == true)
-            {
-
-                FileStream fs = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read);
-                data = new byte[fs.Length];
-                fs.Read(data, 0, Convert.ToInt32(fs.Length));
-                fs.Close();
+            {             
                 //caragamos la imagen seleccionada en la etiqueta image
                 ImageSourceConverter img = new ImageSourceConverter();
                 imagen.SetValue(Image.SourceProperty, img.ConvertFromString(dialog.FileName.ToString()));

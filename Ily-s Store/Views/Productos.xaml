@@ -272,7 +272,7 @@
                      Grid.Column="2"
                      Grid.Row="2"
                     TextChanged="tbBuscando"
-                         x:Name="tbBuscando"
+                         x:Name="Buscando"
                      FontSize="20"></TextBox>
                 <!--#endregion-->
                 <!--#endregion-->
@@ -283,7 +283,7 @@
                     Grid.Row="2"
                     Cursor="Hand"
                     Width="150"
-                    x:Name="btnCrearProducto"
+                    x:Name="CrearProducto"
                     Style="{DynamicResource ButtonBuscador}"
                     Click="btnCrearProducto">
                     <TextBlock Text="Crear Producto" FontSize="15" Foreground="White"></TextBlock>
