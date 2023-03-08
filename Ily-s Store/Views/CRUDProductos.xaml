@@ -477,8 +477,8 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="30"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="30"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
+            
                 <RowDefinition Height="30"></RowDefinition>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
@@ -507,11 +507,13 @@
             <!--#region Btn Crear-->
             <Button x:Name="BtnCrear"
                     Content="Crear"
-                    Grid.Row="18"
-                    Grid.Column="5"
+                    Grid.Row="17"
+                    Grid.Column="4"
+                    Grid.ColumnSpan="2"
                     Width="100"
                     Background="Pink"
                     Style="{DynamicResource ButtonRegresar}"
+                    HorizontalAlignment="Center"
                     Visibility="Hidden"
                     Click="BtnCrear_Click"/>
             <!--#endregion-->
@@ -543,74 +545,77 @@
             <!--#region Contenido -->
             <TextBlock Grid.Row="4"
                        Grid.Column="1"
-                       Text="Nombres: "
+                       Text="Nombre: "
                        HorizontalAlignment="Left"
                        VerticalAlignment="Center"
                        />
             <TextBox Style="{DynamicResource TextBox}" Grid.Row="4"
                        Grid.Column="2"
-                       x:Name="tbNombres"
+                       x:Name="tbNombre"
                      HorizontalContentAlignment="Center"/>
             <TextBlock Grid.Row="6"
                        Grid.Column="1"
-                       Text="Apellidos: "
+                       Text="Código: "
                        HorizontalAlignment="Left"
                        VerticalAlignment="Center"/>
             <TextBox Grid.Row="6"
                       Grid.Column="2"
-                     x:Name="tbApellidos"
+                     x:Name="tbCodigo"
                      HorizontalContentAlignment="Center"
                      Style="{DynamicResource TextBox}"/>
             <TextBlock Grid.Row="8"
                        Grid.Column="1"
-                       Text="DNI: "
+                       Text="Cantidad: "
                        HorizontalAlignment="Left"
                        VerticalAlignment="Center"/>
             <TextBox Grid.Row="8"
                       Grid.Column="2"
-                     x:Name="tbDNI"
+                     x:Name="cantidad"
                      HorizontalContentAlignment="Center"
                      Style="{DynamicResource TextBox}"/>
             <TextBlock Grid.Row="10"
                        Grid.Column="1"
-                       Text="Email: "
+                       Text="Precio: "
                        HorizontalAlignment="Left"
                        VerticalAlignment="Center"/>
             <TextBox Grid.Row="10"
                       Grid.Column="2"
-                     x:Name="tbEmail"
+                     x:Name="tbPrecio"
                      HorizontalContentAlignment="Center"
                      Style="{DynamicResource TextBox}"/>
             <TextBlock Grid.Row="12"
                        Grid.Column="1"
-                       Text="Teléfono: "
                        HorizontalAlignment="Left"
-                       VerticalAlignment="Center"/>
+                       VerticalAlignment="Center"
+                       Text="Unidad de Medida:"/>
             <TextBox Grid.Row="12"
                       Grid.Column="2"
-                     x:Name="tbTelefono"
+                     x:Name="tbUnidadMe"
                      HorizontalContentAlignment="Center"
                      Style="{DynamicResource TextBox}"/>
             <TextBlock Grid.Row="14"
                        Grid.Column="1"
-                       Text="Fecha de Nacimiento: "
+                       Text="Descripción: "
                        HorizontalAlignment="Left"
                        VerticalAlignment="Center"/>
             <TextBox Grid.Row="14"
                       Grid.Column="2"
-                     x:Name="tbFechaNacimiento"
+                     Grid.RowSpan="2"
+                     x:Name="tbDescripcion"
                      HorizontalContentAlignment="Center"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     TextWrapping="Wrap"
                      Style="{DynamicResource TextBox}"/>
-            <TextBlock Grid.Row="16"
+            <TextBlock Grid.Row="17"
                        Grid.Column="1"
-                       Text="Privilegios: "
+                       Text="Grupo: "
                        HorizontalAlignment="Left"
                        VerticalAlignment="Center"/>
             <ComboBox Style="{DynamicResource ComboBox}" Grid.Column="2"
-                      Grid.Row="16"
-                      x:Name="cbPrivilegios"
+                      Grid.Row="17"
+                      x:Name="cbGrupo"
                       HorizontalContentAlignment="Center"
-                      Background="Pink">
+                      Background="Pink" >
                 <ComboBox.ItemContainerStyle>
                     <Style TargetType="{x:Type ComboBoxItem}">
                         <Setter Property="Template">
@@ -692,21 +697,16 @@
                     Style="{DynamicResource ButtonRegresar}" HorizontalAlignment="Left" Margin="60,14,0,0" Grid.RowSpan="2"></Button>
             <TextBlock Grid.Row="14"
                        Grid.Column="4"
-                       Text="Usuario: "
+                       Text="Activa: "
                        HorizontalAlignment="Left"
                        VerticalAlignment="Center"/>
-            <TextBox Grid.Row="14"
+            <CheckBox Grid.Row="14"
                       Grid.Column="5"
-                     x:Name="tbUsuario" HorizontalContentAlignment="Center"
-                     Style="{DynamicResource TextBox}"/>
-            <TextBlock Grid.Row="16"
-                       Grid.Column="4"
-                       Text="Contraseña: "
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Center"/>
-            <PasswordBox Style="{DynamicResource PasswordBox}" Grid.Row="16"
-                      Grid.Column="5"
-                     x:Name="tbPassword" VerticalContentAlignment="Center"/>
+                     Width="100"
+                     x:Name="checBActiva"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Center"
+                     />
 
             <!--#endregion-->
         </Grid>

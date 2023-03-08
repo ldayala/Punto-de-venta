@@ -1,4 +1,9 @@
-﻿using System.Windows.Controls;
+﻿using Capa_Entidad;
+using Capa_Negocio;
+using System.Data;
+using System.Diagnostics;
+using System.Windows.Controls;
+using System.Windows;
 
 namespace Ily_s_Store.Views
 {
@@ -7,15 +12,18 @@ namespace Ily_s_Store.Views
     /// </summary>
     public partial class Productos : UserControl
     {
+        readonly CN_Productos prod=new CN_Productos();
+        readonly CE_Productos prod_CE=new CE_Productos();
         public Productos()
         {
             InitializeComponent();
+            Buscar("");
 
         }
         #region Buscar
         private void tbBuscando(object sender, TextChangedEventArgs e)
         {
-
+            GridDatosProducto.ItemsSource=prod.Buscar(tbxBuscando.Text).DefaultView;
         }
         #endregion
 
@@ -23,7 +31,10 @@ namespace Ily_s_Store.Views
         #region Crear
         private void btnCrearProducto(object sender, System.Windows.RoutedEventArgs e)
         {
-
+          CRUDProductos cRUDProductos=new CRUDProductos();
+          FrameProductos.Content = cRUDProductos;
+          Contenido.Visibility = Visibility.Hidden;
+          cRUDProductos.BtnCrear.Visibility=Visibility.Visible;
         }
         #endregion
 
@@ -51,6 +62,12 @@ namespace Ily_s_Store.Views
         #endregion
         #endregion
 
+        public void Buscar(string text)
+        {
+            //prod.Buscar(text);
+            GridDatosProducto.ItemsSource = prod.Buscar(text).DefaultView;
+        }
 
+       
     }
 }

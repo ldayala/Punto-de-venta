@@ -44,6 +44,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CE_Grupo.cs" />
     <Compile Include="CE_Imagen.cs" />
     <Compile Include="CE_Privilegios.cs" />
     <Compile Include="CE_Productos.cs" />

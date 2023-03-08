@@ -45,6 +45,7 @@
     <Compile Include="CD_Privilegios.cs" />
     <Compile Include="CD_Productos.cs" />
     <Compile Include="CD_Usuarios.cs" />
+    <Compile Include="CD_Grupo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

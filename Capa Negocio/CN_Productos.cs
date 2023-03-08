@@ -2,6 +2,7 @@
 using Capa_Entidad;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,9 +28,9 @@ namespace Capa_Negocio
         #endregion
 
         #region Buscar
-        public void Buscar(string text)
+        public DataTable Buscar(string text)
         {
-            ObjProductos.Buscar(text);
+         return   ObjProductos.Buscar(text);
         }
         #endregion
 

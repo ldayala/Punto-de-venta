@@ -11,10 +11,10 @@ namespace Capa_Negocio
     {
         readonly CE_Imagen obj= new CE_Imagen();
 
-        public OpenFileDialog CargaImagen()
-        {
-            return obj.CargarImagen(Object dialog, Image imagen);
-        }
+        //public OpenFileDialog CargaImagen()
+        //{
+        //    return obj.CargarImagen(Object dialog, Image imagen);
+        //}
        
     }
 }

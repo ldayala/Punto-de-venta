@@ -23,10 +23,11 @@ namespace Capa_de__Datos
             adapter.SelectCommand.Parameters.AddWithValue("@text", text);
 
             DataSet dataSet = new DataSet();
-
+            dataSet.Clear();
             adapter.Fill(dataSet);
 
             DataTable dt = dataSet.Tables[0];
+            conexion.CerrarConexion();
             return dt;
 
         }
