@@ -354,7 +354,7 @@
                         <DataGridTextColumn Header="Cantidad" Width="100" Binding="{Binding cantidad}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Precio" Width="100" Binding="{Binding precio}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Descripcion" Width="*" Binding="{Binding descripcion}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Tipo" Width="*" Binding="{Binding nombreGrupo}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Tipo" Width="*" Binding="{Binding nombre}"></DataGridTextColumn>
 
 
                     </DataGrid.Columns>

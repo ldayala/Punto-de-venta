@@ -18,6 +18,8 @@ namespace Capa_Entidad
         private bool _estado;
         private byte[] _imagen;
         private int _grupo;
+        private string _unidadMedida;
+        private bool activa;
         public int IdProducto { get => _idProducto; set => _idProducto = value; }
         public string Codigo { get => _codigo; set => _codigo = value; }
         public string Nombre { get => _nombre; set => _nombre = value; }
@@ -27,6 +29,7 @@ namespace Capa_Entidad
         public bool Estado { get => _estado; set => _estado = value; }
         public byte[] Imagen { get => _imagen; set => _imagen = value; }
         public int Grupo { get => _grupo; set => _grupo = value; }
-       
+        public string UnidadMedida { get => _unidadMedida; set => _unidadMedida = value; }
+        public bool Activa { get => activa; set => activa = value; }
     }
 }

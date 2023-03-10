@@ -227,24 +227,6 @@ namespace Ily_s_Store.Views
 
         }
 
-        public BitmapImage ConvertirCadenaBitAImagen(DataSet ds)
-        {
-
-            byte[] data = (byte[])ds.Tables[0].Rows[0][0];
-            MemoryStream ms = new MemoryStream();
-            ms.Write(data, 0, data.Length);
-            ms.Position = 0;
-            System.Drawing.Image img = System.Drawing.Image.FromStream(ms);
-            BitmapImage bi = new BitmapImage();
-            bi.BeginInit();
-            MemoryStream ms2 = new MemoryStream();
-            img.Save(ms2, System.Drawing.Imaging.ImageFormat.Bmp);
-            ms2.Seek(0, SeekOrigin.Begin);
-            bi.StreamSource = ms2;
-            bi.EndInit();
-
-            return bi;
-
-        }
+       
     }
 }

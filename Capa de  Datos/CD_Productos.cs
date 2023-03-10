@@ -49,6 +49,8 @@ namespace Capa_de__Datos
             command.Parameters.Add("@precio", SqlDbType.Money).Value = obj.Precio;
             command.Parameters.AddWithValue("@descripcion", obj.Descripcion);
             command.Parameters.Add("@grupo",SqlDbType.Int).Value=obj.Grupo;
+            command.Parameters.AddWithValue("@unidadMedida", obj.UnidadMedida);
+            command.Parameters.Add("@activa", SqlDbType.Bit).Value = obj.Activa;
             command.ExecuteNonQuery();
             command.Parameters.Clear();
             command.Connection.Close();

@@ -570,7 +570,7 @@
                        VerticalAlignment="Center"/>
             <TextBox Grid.Row="8"
                       Grid.Column="2"
-                     x:Name="cantidad"
+                     x:Name="tbcantidad"
                      HorizontalContentAlignment="Center"
                      Style="{DynamicResource TextBox}"/>
             <TextBlock Grid.Row="10"
@@ -703,7 +703,7 @@
             <CheckBox Grid.Row="14"
                       Grid.Column="5"
                      Width="100"
-                     x:Name="checBActiva"
+                     x:Name="checkBActiva"
                       HorizontalAlignment="Left"
                       VerticalAlignment="Center"
                      />
