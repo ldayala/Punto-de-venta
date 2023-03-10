@@ -41,7 +41,15 @@ namespace Ily_s_Store.Views
         #region Consultar
         private void btnConsultar_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-
+            int id = (int)((Button)sender).CommandParameter;
+            CRUDProductos ventana = new CRUDProductos() { IdUsuario=id };
+            FrameProductos.Content = ventana;
+            Contenido.Visibility = Visibility.Hidden;
+            
+            ventana.
+            
+            
+            
         }
         #endregion
 

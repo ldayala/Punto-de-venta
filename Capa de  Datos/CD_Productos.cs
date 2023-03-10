@@ -51,14 +51,15 @@ namespace Capa_de__Datos
             command.Parameters.Add("@grupo",SqlDbType.Int).Value=obj.Grupo;
             command.Parameters.AddWithValue("@unidadMedida", obj.UnidadMedida);
             command.Parameters.Add("@activa", SqlDbType.Bit).Value = obj.Activa;
+            command.Parameters.Add("@imagen", SqlDbType.VarBinary).Value = obj.Imagen;
             command.ExecuteNonQuery();
             command.Parameters.Clear();
             command.Connection.Close();
         }
         #endregion
 
-        #region Insertar Imagen
-        public void InsertarImagen(CE_Productos obj)
+        #region Actualizar Imagen
+        public void ActualizarImagen(CE_Productos obj)
         {
             SqlCommand command = new SqlCommand()
             {

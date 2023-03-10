@@ -20,10 +20,10 @@ namespace Capa_Negocio
         }
         #endregion
 
-        #region Insertar Imagen
+        #region Actualizar Imagen
         public void InsertarImagen(CE_Productos obj)
         {
-            ObjProductos.InsertarImagen(obj);
+            ObjProductos.ActualizarImagen(obj);
         }
         #endregion
 

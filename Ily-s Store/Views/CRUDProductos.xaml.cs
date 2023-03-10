@@ -4,6 +4,7 @@ using Capa_Negocio;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -32,6 +33,10 @@ namespace Ily_s_Store.Views
         readonly CN_Productos cN_Productos=new CN_Productos();
         private byte[] data;
         private bool imagenSubida=false;
+        private int _idUsuario;
+
+        public int IdUsuario { get => _idUsuario; set => _idUsuario = value; }
+
         public CRUDProductos()
         {
             InitializeComponent();
@@ -64,7 +69,7 @@ namespace Ily_s_Store.Views
                 cE_Productos.Precio = Convert.ToDecimal(tbPrecio.Text);
                 cE_Productos.Imagen = data;
                 cN_Productos.Insertar(cE_Productos);
-                cN_Productos.InsertarImagen(cE_Productos);
+               
 
                 Content = new Productos();
             }
@@ -87,7 +92,6 @@ namespace Ily_s_Store.Views
         {
 
         }
-
         private void CambiarImagen_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog img = CargarImagen();
@@ -154,5 +158,7 @@ namespace Ily_s_Store.Views
             return bi;
 
         }
+
+       
     }
 }
